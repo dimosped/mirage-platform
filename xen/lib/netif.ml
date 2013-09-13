@@ -212,7 +212,9 @@ let plug_inner id =
   let rx_map = Hashtbl.create 1 in
   Console.log (sprintf " sg:%b gso_tcpv4:%b rx_copy:%b rx_flip:%b smart_poll:%b"
     features.sg features.gso_tcpv4 features.rx_copy features.rx_flip features.smart_poll);
-  Eventchn.unmask h evtchn;
+  (* The guest is in polling mode (SCHEDOP_poll), therefore event delivery needs to be disabled.
+     We disable event delivery by masking the channel (port number) *)
+  Eventchn.mask h evtchn;
   (* Register callback activation *)
   return { id; backend_id; tx_fring; tx_client; tx_gnt; tx_mutex; rx_gnt; rx_fring; rx_client; rx_map;
     evtchn; mac; backend; features }

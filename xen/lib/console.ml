@@ -43,7 +43,9 @@ let create () =
   let evtchn = Eventchn.of_int Start_info.((get ()).console_evtchn) in
   let waiters = Lwt_sequence.create () in
   let cons = { backend_id; gnt; ring; evtchn; waiters } in
-  Eventchn.unmask h evtchn;
+  (* The guest is in polling mode (SCHEDOP_poll), therefore event delivery needs to be disabled.
+     We disable event delivery by masking the channel (port number) *)
+  Eventchn.mask h evtchn;
   Eventchn.notify h evtchn;
   cons
 

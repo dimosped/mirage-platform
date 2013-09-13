@@ -23,7 +23,7 @@
 #include <caml/callback.h>
 #include <caml/bigarray.h>
 
-#define NR_EVENTS 8
+#define NR_EVENTS 10
 static uint8_t ev_callback_ml[NR_EVENTS];
 
 #define active_evtchns(cpu,sh,idx)              \
@@ -121,6 +121,14 @@ stub_evtchn_unmask(value v_port)
 {
     CAMLparam1(v_port);
     unmask_evtchn(Int_val(v_port));
+    CAMLreturn(Val_unit);
+}
+
+CAMLprim value
+stub_evtchn_mask(value v_port)
+{
+    CAMLparam1(v_port);
+    mask_evtchn(Int_val(v_port));
     CAMLreturn(Val_unit);
 }
 

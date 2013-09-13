@@ -59,6 +59,9 @@ val unbind : handle -> t -> unit
 val unmask : handle -> t -> unit
 (** [unmask h c] unmasks [c]. *)
 
+val mask : handle -> t -> unit
+(** [mask h c] masks [c]. *)
+
 (** {2 Xen specific functions} *)
 
 val is_valid : t -> bool

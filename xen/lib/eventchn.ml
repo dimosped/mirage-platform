@@ -25,6 +25,7 @@ type t = int Generation.t
 external stub_bind_unbound_port: int -> int = "stub_evtchn_alloc_unbound"
 external stub_bind_interdomain: int -> int -> int = "stub_evtchn_bind_interdomain"
 external stub_unmask: int -> unit = "stub_evtchn_unmask"
+external stub_mask: int -> unit = "stub_evtchn_mask"
 external stub_notify: int -> unit = "stub_evtchn_notify" "noalloc"
 external stub_unbind: int -> unit = "stub_evtchn_unbind"
 external stub_virq_dom_exc: unit -> int = "stub_virq_dom_exc"
@@ -36,6 +37,7 @@ let bind_interdomain () remote_domid = construct (stub_bind_interdomain remote_d
 
 let maybe t f d = Generation.maybe t f d
 let unmask () t = maybe t stub_unmask ()
+let mask () t = maybe t stub_mask ()
 let notify () t = maybe t stub_notify ()
 let unbind () t = maybe t stub_unbind ()
 let is_valid t = maybe t (fun _ -> true) false

@@ -61,10 +61,11 @@ let run t =
           Activations.run evtchn;
           let timeout =
             match Time.select_next Clock.time with
-            |None -> 86400000.0
+            |None -> 86400.0 (* one day 24*60*60 *)
             |Some tm -> tm
           in
-          block_domain timeout;
+          (* block_domain accepts timeout in seconds (floating point) *)
+          block_domain timeout; 
           false
     with exn ->
       (Printf.printf "Top level exception: %s\n%!" 
